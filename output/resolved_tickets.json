@@ -1,0 +1,63 @@
+{
+  "starting_checking_balance": 3400.0,
+  "ending_checking_balance": 160.0,
+  "tickets": [
+    {
+      "id": 101,
+      "final_status": "resolved",
+      "outcome": "Size S of CC-TEE-WHITE is out. Invoice 501 for $840 was overdue and blocking Bulldog Print Co. Shop owner approved that invoice payment. The customer draft is on the ticket.",
+      "agents": {
+        "boss": "Called inventory first, then accounting, then customer service. Wrote the final note. Set the status open; the board route then marked it resolved.",
+        "inventory": "Qty 0 for size S, shortfall 1. Vendor 1, Bulldog Print Co, lead time 5 days, blocked by open invoice 501.",
+        "accounting": "Invoice 501 is $840, due 2026-08-28, overdue. Checking was $3,400. Prepared the payment and did not call pay.",
+        "facilities": "Not called.",
+        "customer_service": "Drafted the note to Tauhid and asked inventory to confirm the shelf and the block."
+      },
+      "human_approvals": [
+        {
+          "approved_by": "Shop owner",
+          "kind": "invoice",
+          "ref_id": 501,
+          "amount": 840.0,
+          "account": "checking",
+          "payee": "Bulldog Print Co"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "final_status": "resolved",
+      "outcome": "Chapel Street rent is $2,400, due 2026-09-02, and was not overdue. Checking had $2,560 after the tee invoice and could cover it. Shop owner approved the rent. The landlord draft is on the ticket and was not emailed.",
+      "agents": {
+        "boss": "Called facilities first, then accounting and customer service. Wrote the final note. Set the status open; the board route then marked it resolved.",
+        "inventory": "Not called.",
+        "accounting": "Checking was $2,560 and can cover $2,400. Prepared the rent payment and did not call pay. Also asked facilities to confirm the lease.",
+        "facilities": "Lease 1 is $2,400, next due 2026-09-02, not overdue. Asked accounting once, then customer service for the draft. A second ask to accounting was refused.",
+        "customer_service": "Drafted the reply to Elm City Properties and asked facilities to confirm the due date."
+      },
+      "human_approvals": [
+        {
+          "approved_by": "Shop owner",
+          "kind": "rent",
+          "ref_id": 1,
+          "amount": 2400.0,
+          "account": "checking",
+          "payee": "Elm City Properties"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "final_status": "resolved",
+      "outcome": "8 of 20 size M hoodies are on hand, short 12. List price is $58 and the floor is the $22 unit cost. Bulldog Print Co was no longer blocked because invoice 501 had been paid. No money left. The club still has to name a discount.",
+      "agents": {
+        "boss": "Called inventory first, then accounting, then customer service. Also read the price. Wrote the final note. Set the status open; the board route then marked it resolved.",
+        "inventory": "Qty 8 in size M, shortfall 12. Vendor 1 can restock in 5 days and was not blocked.",
+        "accounting": "Unit cost $22, list price $58. Would not support a price under cost. Read cash and payments. No payment was prepared.",
+        "facilities": "Not called.",
+        "customer_service": "Drafted the note to the Yale AI Club with the shortfall and the $22 floor."
+      },
+      "human_approvals": []
+    }
+  ]
+}

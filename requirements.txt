@@ -1,0 +1,7 @@
+fastmcp
+pydantic-ai
+openai
+portkey-ai
+python-dotenv
+fastapi
+uvicorn

@@ -1,0 +1,39 @@
+[
+  {
+    "prompt": "With the vibe coder connected, call each of the 3 MCP tools through the real MCP connection. Do not mock or hand-write any outputs.",
+    "tool_name": "check_stock",
+    "tool_output": {
+      "found": true,
+      "sku": "CC-TEE-WHITE",
+      "name": "Classic Bulldog Tee",
+      "size": "S",
+      "qty": 0,
+      "location": "Aisle B"
+    }
+  },
+  {
+    "prompt": "With the vibe coder connected, call each of the 3 MCP tools through the real MCP connection. Do not mock or hand-write any outputs.",
+    "tool_name": "read_lease",
+    "tool_output": {
+      "found": true,
+      "id": 1,
+      "space_name": "Chapel Street shop",
+      "landlord": "Elm City Properties",
+      "monthly_rent": 2400.0,
+      "next_due": "2026-09-02",
+      "notes": null,
+      "date_today": "2026-08-31",
+      "overdue": false
+    }
+  },
+  {
+    "prompt": "With the vibe coder connected, call each of the 3 MCP tools through the real MCP connection. Do not mock or hand-write any outputs.",
+    "tool_name": "read_pricing",
+    "tool_output": {
+      "found": true,
+      "sku": "CC-HOOD-NAVY",
+      "unit_cost": 22.0,
+      "list_price": 58.0
+    }
+  }
+]

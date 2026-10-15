@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Campus Customs desk</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fff5f8;
+      --card: #ffffff;
+      --ink: #2a1c22;
+      --muted: #7a5c68;
+      --line: #f3c3d4;
+      --pink: #e56b93;
+      --pink-deep: #c43b6e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 16px/1.5 Georgia, "Iowan Old Style", serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: normal;
+      margin: 0 0 6px;
+    }
+    .lede {
+      color: var(--muted);
+      margin: 0 0 22px;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    button {
+      font: inherit;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+    button[aria-selected="true"] {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: white;
+    }
+    section[hidden] { display: none; }
+    article {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 22px 8px;
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: normal;
+      margin: 0 0 4px;
+    }
+    .meta { color: var(--muted); margin: 0 0 18px; }
+    h3 {
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--pink-deep);
+      margin: 22px 0 8px;
+    }
+    h4 { font-size: 16px; margin: 14px 0 4px; }
+    ul { margin: 6px 0 14px; padding-left: 20px; }
+    li { margin: 4px 0; }
+    .later {
+      color: var(--muted);
+      padding: 28px 8px 36px;
+    }
+    .actual {
+      border-top: 1px dashed var(--line);
+      margin-top: 8px;
+      padding-bottom: 16px;
+    }
+    .blank {
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Campus Customs desk</h1>
+    <p class="lede">Shop today is 2026-08-31. Expected is the plan. Actual is the run that resolved each ticket.</p>
+    <nav>
+      <button type="button" aria-selected="true" data-tab="t101">101</button>
+      <button type="button" aria-selected="false" data-tab="t102">102</button>
+      <button type="button" aria-selected="false" data-tab="t103">103</button>
+      <button type="button" aria-selected="false" data-tab="cash">Cash</button>
+      <button type="button" aria-selected="false" data-tab="reflection">Reflection</button>
+    </nav>
+
+    <section id="t101">
+      <article>
+        <h2>101 · Bulldog tee</h2>
+        <p class="meta">Tauhid Zaman wants 1 Classic Bulldog Tee, CC-TEE-WHITE, size S. Invoice 501 is linked. No lease.</p>
+        <h3>Expected</h3>
+        <h4>Who the boss calls first</h4>
+        <p>Inventory. This is a customer order for one size. The boss cannot decide until that size’s qty is read. Size S is 0, so the tee is not on the shelf.</p>
+        <h4>Delegations</h4>
+        <ul>
+          <li>Boss → inventory. Check CC-TEE-WHITE size S, then the vendor on invoice 501.</li>
+          <li>Boss → accounting. The size is out and invoice 501 is an open $840 bill, due 2026-08-28, so it is overdue. Checking has $3,400. Prepare that payment for a human. Do not pay it.</li>
+          <li>Boss → customer service. Draft for Tauhid: size S is out, Bulldog Print Co will not ship the reprint while invoice 501 is open, and a person still has to approve the $840.</li>
+        </ul>
+        <p>Facilities is not called. There is no lease. Inventory does not also call accounting. The boss makes that handoff.</p>
+        <h4>MCP tools</h4>
+        <ul>
+          <li><code>read_desk</code> and <code>read_ticket</code> 101</li>
+          <li><code>check_stock</code> for CC-TEE-WHITE, size S</li>
+          <li><code>read_invoice</code> 501 and <code>read_vendor</code> 1 (Bulldog Print Co, 5-day lead, blocked by that open bill)</li>
+          <li><code>read_cash</code> and <code>list_payments</code> before the payment is prepared</li>
+          <li><code>append_ticket_note</code> for the draft and the boss’s call</li>
+          <li><code>set_ticket_status</code> stays <code>open</code>, because the $840 still needs a person</li>
+        </ul>
+        <p><code>pay</code> is not called. No human name was given. <code>read_lease</code>, <code>read_pricing</code>, and <code>list_sizes</code> are not needed. Other sizes do not fill a size S order, and this ticket is not a discount.</p>
+        <div class="actual">
+          <h3>Actual</h3>
+          <h4>Who worked</h4>
+          <p>The boss called inventory first. Size S of CC-TEE-WHITE was qty 0. Then the boss called accounting, then customer service. Facilities was not called. Customer service also called inventory again to confirm the shelf and the vendor block.</p>
+          <h4>Delegations</h4>
+          <ul>
+            <li>Boss → inventory. Stock for CC-TEE-WHITE size S, and which vendor can restock.</li>
+            <li>Boss → accounting. Invoice 501 is open, $840, due 2026-08-28, overdue. Checking was $3,400. Prepare the payment. Do not pay.</li>
+            <li>Boss → customer service. Draft for Tauhid. The reprint is blocked until a person approves the bill.</li>
+            <li>Customer service → inventory. Confirm qty 0 and the vendor block before writing the draft.</li>
+          </ul>
+          <h4>MCP tools</h4>
+          <ul>
+            <li>Boss: <code>read_desk</code>, <code>read_ticket</code> 101, <code>append_ticket_note</code>, <code>set_ticket_status</code> open</li>
+            <li>Inventory: <code>read_ticket</code>, <code>read_desk</code>, <code>list_vendors</code>, <code>check_stock</code> CC-TEE-WHITE S, <code>read_vendor</code> 1, <code>read_invoice</code> 501</li>
+            <li>Accounting: <code>read_ticket</code>, <code>read_cash</code>, <code>read_invoice</code> 501, <code>list_payments</code>, <code>read_desk</code></li>
+            <li>Customer service: <code>read_ticket</code>, <code>append_ticket_note</code></li>
+          </ul>
+          <p>No agent called <code>pay</code>. After the run, Shop owner approved invoice 501 for $840 from checking. The boss had left the ticket open. The board route then stamped it resolved.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="t102" hidden>
+      <article>
+        <h2>102 · Rent due</h2>
+        <p class="meta">Elm City Properties. Lease 1, Chapel Street shop. No SKU and no invoice. The note says rent is due in 2 days.</p>
+        <h3>Expected</h3>
+        <h4>Who the boss calls first</h4>
+        <p>Facilities. This is a rent notice pointed at lease 1. The first fact is the lease: $2,400, next due 2026-09-02. Shop today is 2026-08-31, so the rent is not overdue.</p>
+        <h4>Delegations</h4>
+        <ul>
+          <li>Boss → facilities. Read lease 1 and say whether <code>next_due</code> is before shop today.</li>
+          <li>Facilities → accounting. Monthly rent is $2,400 and checking has $3,400, so the payment can be prepared. A human still has to approve it. Do not pay.</li>
+          <li>Boss → customer service. The landlord asked for a reply, so draft it on the ticket. Do not email Elm City Properties.</li>
+        </ul>
+        <p>Inventory is not called. Nothing on this ticket is a SKU. The boss does not call accounting directly. Facilities brings that answer back.</p>
+        <h4>MCP tools</h4>
+        <ul>
+          <li><code>read_desk</code> and <code>read_ticket</code> 102</li>
+          <li><code>read_lease</code> 1</li>
+          <li><code>read_cash</code> and <code>list_payments</code></li>
+          <li><code>append_ticket_note</code> for the landlord draft and the boss’s call</li>
+          <li><code>set_ticket_status</code> stays <code>open</code>, because the $2,400 still needs a person</li>
+        </ul>
+        <p><code>pay</code> is not called. <code>check_stock</code>, <code>read_pricing</code>, <code>read_invoice</code>, and <code>read_vendor</code> are not needed.</p>
+        <div class="actual">
+          <h3>Actual</h3>
+          <h4>Who worked</h4>
+          <p>The boss called facilities first. Lease 1 is $2,400, next due 2026-09-02, and it was not overdue. Facilities called accounting. The boss also called accounting and customer service. Accounting called facilities back. Customer service called facilities. Facilities tried to call accounting a second time and was stopped, then called customer service to draft the landlord reply. Inventory was not called.</p>
+          <h4>Delegations</h4>
+          <ul>
+            <li>Boss → facilities. Read lease 1 against shop today.</li>
+            <li>Facilities → accounting. Can checking cover $2,400? Do not pay.</li>
+            <li>Boss → accounting. Same rent question, after facilities had the lease facts.</li>
+            <li>Boss → customer service. The landlord note asks for a reply. Draft it on the ticket.</li>
+            <li>Accounting → facilities. Confirm monthly rent and next due.</li>
+            <li>Customer service → facilities. Confirm the due date before the draft.</li>
+            <li>Facilities → customer service. Ask for the landlord draft from the lease facts.</li>
+          </ul>
+          <h4>MCP tools</h4>
+          <ul>
+            <li>Boss: <code>read_desk</code>, <code>read_ticket</code> 102, <code>append_ticket_note</code>, <code>set_ticket_status</code> open</li>
+            <li>Facilities: <code>read_ticket</code>, <code>read_desk</code>, <code>read_lease</code> 1</li>
+            <li>Accounting: <code>read_cash</code>, <code>read_lease</code> 1, <code>read_desk</code>, <code>list_payments</code></li>
+            <li>Customer service: <code>read_ticket</code>, <code>read_lease</code> 1, <code>append_ticket_note</code></li>
+          </ul>
+          <p>Checking was already $2,560 because invoice 501 had been paid. No agent called <code>pay</code>. Shop owner then approved the rent, lease 1, for $2,400. The boss had left the ticket open. The board route stamped it resolved.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="t103" hidden>
+      <article>
+        <h2>103 · Bulk hoodie discount</h2>
+        <p class="meta">Yale AI Club wants 20 Basic Hoodie Big Yale, CC-HOOD-NAVY, size M, at a bulk discount. No lease and no invoice on the ticket.</p>
+        <h3>Expected</h3>
+        <h4>Who the boss calls first</h4>
+        <p>Inventory. The club asked for 20 in size M. Size M has 8 on hand, so the shop is 12 short. A discount talk starts from that shortfall, not from a made-up percent off.</p>
+        <h4>Delegations</h4>
+        <ul>
+          <li>Boss → inventory. Compare qty 20 with size M, then see which vendor specialty can restock apparel. Bulldog Print Co is the apparel reprint vendor, lead time 5 days, and open invoice 501 blocks them.</li>
+          <li>Boss → accounting. Unit cost is $22 and list price is $58. The floor is $22. Do not invent a discount, and do not support a price under cost. No money leaves on this ticket.</li>
+          <li>Boss → customer service. Draft for the Yale AI Club: 8 are on hand, not 20; any price stays at or above $22; a restock cannot ship until invoice 501 is paid; a person still has to decide the discount.</li>
+        </ul>
+        <p>Facilities is not called. Accounting is not asked to pay anything. Inventory does not hand the margin question to accounting. The boss does.</p>
+        <h4>MCP tools</h4>
+        <ul>
+          <li><code>read_desk</code> and <code>read_ticket</code> 103</li>
+          <li><code>check_stock</code> for CC-HOOD-NAVY, size M</li>
+          <li><code>list_vendors</code> and <code>read_vendor</code> 1, because this ticket has no vendor id and the apparel row has to be matched by specialty</li>
+          <li><code>read_pricing</code> for CC-HOOD-NAVY</li>
+          <li><code>append_ticket_note</code> for the club draft and the boss’s call</li>
+          <li><code>set_ticket_status</code> stays <code>open</code>, because the discount still needs a person and the 20 cannot be filled</li>
+        </ul>
+        <p><code>pay</code>, <code>read_cash</code>, and <code>read_lease</code> are not needed. The blocking bill is found on the vendor row. <code>read_invoice</code> is not required again.</p>
+        <div class="actual">
+          <h3>Actual</h3>
+          <h4>Who worked</h4>
+          <p>The boss called inventory first. Size M of CC-HOOD-NAVY had qty 8, so the shop was 12 short of 20. Then the boss called accounting, then customer service. Facilities was not called. By this point invoice 501 was already paid, so Bulldog Print Co was not blocked and the 5-day lead could be quoted.</p>
+          <h4>Delegations</h4>
+          <ul>
+            <li>Boss → inventory. Shortfall on CC-HOOD-NAVY size M, and which vendor can restock.</li>
+            <li>Boss → accounting. Unit cost and list price. The floor is $22. No payment.</li>
+            <li>Boss → customer service. Draft for the Yale AI Club: 8 on hand, price stays at or above $22, restock is 5 days and not blocked.</li>
+          </ul>
+          <h4>MCP tools</h4>
+          <ul>
+            <li>Boss: <code>read_desk</code>, <code>read_ticket</code> 103, <code>read_pricing</code> CC-HOOD-NAVY, <code>append_ticket_note</code>, <code>set_ticket_status</code> open</li>
+            <li>Inventory: <code>read_ticket</code>, <code>read_desk</code>, <code>list_vendors</code>, <code>check_stock</code> CC-HOOD-NAVY M, <code>read_vendor</code> 1</li>
+            <li>Accounting: <code>read_cash</code>, <code>read_ticket</code>, <code>read_pricing</code> CC-HOOD-NAVY, <code>read_desk</code>, <code>list_payments</code></li>
+            <li>Customer service: <code>read_ticket</code>, <code>append_ticket_note</code></li>
+          </ul>
+          <p>No payment was prepared and <code>pay</code> was not called. The discount still needs a person, which the draft says. The board route stamped the ticket resolved when the run finished. Checking stayed at $160.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="cash" hidden>
+      <article>
+        <h2>Cash</h2>
+        <p>Checking only. Shop date on the cash row stays 2026-08-31. These figures match <code>cash_accounts</code> and <code>payments</code> in <code>data/campus_customs_new.db</code>.</p>
+        <h3>Starting balance</h3>
+        <p>$3,400.00 after the reset, before any ticket ran.</p>
+        <h3>Ticket 101</h3>
+        <p>The run prepared invoice 501 and did not pay it. Shop owner then approved that invoice payment for $840.00 to Bulldog Print Co. Checking went from $3,400.00 to $2,560.00.</p>
+        <h3>Ticket 102</h3>
+        <p>The run prepared one month of rent on lease 1 and did not pay it. Checking was already $2,560.00. Shop owner then approved the rent for $2,400.00 to Elm City Properties. Checking went from $2,560.00 to $160.00.</p>
+        <h3>Ticket 103</h3>
+        <p>No pay and no purchase. The discount was left for a person, and no money left the drawer. Checking stayed $160.00.</p>
+        <h3>Ending balance</h3>
+        <p>$160.00. That is $3,400.00 − $840.00 − $2,400.00, and it is the <code>checking</code> balance in <code>cash_accounts</code>.</p>
+      </article>
+    </section>
+
+    <section id="reflection" hidden>
+      <article>
+        <h2>Reflection</h2>
+
+        <h3>1. How the agents did</h3>
+        <h4>Ticket 101</h4>
+        <p>The agents got the facts right. Size S of CC-TEE-WHITE is at 0, and invoice 501 is an overdue $840. No agent ever called <code>pay</code>, so checking only dropped from $3,400 to $2,560 once the shop owner approved the payment. What went wrong was after that. Customer service sent inventory back to the shelf a second time for no reason, and then the route marked the ticket resolved even though the note said to leave it open.</p>
+        <h4>Ticket 102</h4>
+        <p>The lease facts were right. The rent is $2,400, due 2026-09-02, and it isn't overdue as of the shop's today. Accounting read the live drawer, saw $2,560, which still covers the rent, and after the approval checking sat at $160. The weak spot is how many times the work went in circles. The boss, facilities, accounting, and customer service kept passing the same lease around. A second ask to accounting got refused, and two landlord drafts got written. That loop is what blew the token cap on the earlier attempts.</p>
+        <h4>Ticket 103</h4>
+        <p>This was the cleanest split of the three. Inventory said there were 8 on hand against the 20 the club wanted. Accounting held the price at the $22 unit cost floor and didn't make up a discount. No money moved, so checking stayed at $160. The miss is the resolved stamp. The agent's note says the club still has to name a price, and the route resolved the ticket anyway.</p>
+
+        <h3>2. Plan versus what happened</h3>
+        <h4>Ticket 101</h4>
+        <p>The main path matched my plan. Inventory went first, then accounting, then customer service. Facilities stayed out, and no agent called <code>pay</code>. Two things weren't in the plan. Inventory got a second lap, and the route resolved the ticket before the $840 approval happened.</p>
+        <h4>Ticket 102</h4>
+        <p>The first call matched, since facilities went first, and inventory stayed out. My plan said the boss wouldn't call accounting directly, but the boss did. My plan also assumed checking was still $3,400. The run correctly saw $2,560, because the tee bill from 101 had already been paid.</p>
+        <h4>Ticket 103</h4>
+        <p>The order matched, and so did the $22 floor. My plan said Bulldog Print Co was still blocked by invoice 501, but the run found them unblocked because the $840 had already posted. My plan said to leave the ticket open, and the agent's note said the same thing. The route resolved it anyway, with no approval after.</p>
+
+        <h3>3. What one agent with tools could have done</h3>
+        <p>Ticket 102 is the obvious one. It comes down to one lease row and one cash row. A single agent would have gotten the same $2,400 and the same $2,560 coverage without the refused handoff or the second draft. Ticket 101 didn't need <code>check_stock</code> twice. Ticket 103 didn't need <code>read_pricing</code> twice, and it didn't need a cash read at all, since $0 was leaving the drawer. The one piece I'd keep separate is the approve button. Agents still shouldn't call <code>pay</code>, and the cash tab only moves when the two signatures happen.</p>
+
+        <h3>4. New problems this team could handle</h3>
+        <p>A request for the blue hats. CC-HAT-BLUE has 40 in stock, so inventory plus a customer reply draft is enough, and checking stays at $160.</p>
+        <p>An empty mug shelf plus a bill from Elm City Gifts. CC-MUG-CREST is at 0, and vendor 2 does mugs with a 3-day lead. That's the same pattern as ticket 101: check the shelf, read the vendor, read the invoice, read cash, and prepare the payment without calling <code>pay</code>. After this run the drawer only has $160. If that mug bill were $200, <code>pay</code> would refuse it, the same way it would have refused the $2,400 rent once the balance was already $160.</p>
+        <p>A discount on the white tee instead of the hoodie. CC-TEE-WHITE is an $8 unit cost and a $28 list price. Accounting already held a floor on ticket 103, $22 against a $58 list, and didn't invent a percent off. <code>read_pricing</code> works the same way for the tee, and inventory can still check stock by size, which is how ticket 101 showed size S at 0.</p>
+
+        <h3>5. Problems this team could not finish</h3>
+        <p>Tauhid still doesn't have a size S tee. Invoice 501 is paid, $840, and ticket 103 showed Bulldog Print Co unblocked with a 5-day lead. Size S of CC-TEE-WHITE is still qty 0. <code>check_stock</code> only reads. I'd add a receive tool, sku and size and qty in, owned by inventory, and it should only run after accounting can point at a paid invoice for that vendor. Paying the $840 unblocks the printer and doesn't put a shirt on the shelf.</p>
+        <p>The shop can't take anyone's money. The cash tab only falls: $3,400, then $2,560, then $160. <code>pay</code> subtracts and refuses a negative balance. A tee at the $28 list, or twenty hoodies at the $22 floor, can't be recorded, and checking can't go up. I'd add a sale tool that writes a sale, adds cash, and refuses a unit price under unit cost, which is the floor accounting already used on ticket 103. Accounting would post the money. Inventory would only drop qty when that size is actually there. Size S of the tee would still fail that check.</p>
+        <p>The landlord draft and the lease date are stuck. Ticket 102's reply is sitting in the ticket notes. Nothing was sent to Elm City Properties. <code>next_due</code> is still 2026-09-02 after $2,400 left on shop date 2026-08-31, so next month the same notice would look unpaid. I'd add two tools. Customer service would get a send tool that copies a draft to an outbox only after a person approves the wording, the same kind of signature the shop owner already gave the two payments. Facilities would get a tool that moves <code>next_due</code> forward one month only when <code>payments</code> already has a rent row for that lease. Payment id 2 is that row. Without that check, facilities could move the date on rent that never left the drawer.</p>
+      </article>
+    </section>
+  </main>
+  <script>
+    const buttons = document.querySelectorAll("nav button");
+    const panels = document.querySelectorAll("main > section");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.getAttribute("data-tab");
+        buttons.forEach((item) => item.setAttribute("aria-selected", item === button ? "true" : "false"));
+        panels.forEach((panel) => { panel.hidden = panel.id !== id; });
+      });
+    });
+  </script>
+</body>
+</html>
